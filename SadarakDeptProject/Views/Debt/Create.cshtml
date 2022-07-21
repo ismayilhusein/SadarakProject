@@ -1,0 +1,72 @@
+﻿@model SadarakDeptProject.Models.Debt
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container-fluid">
+    <h1 class="pt-3">Yarat</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Borcu olan şəxsin adı</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label">Vaxtı</label>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Prise" class="control-label">Miqdarı</label>
+                    <input asp-for="Prise" class="form-control" />
+                    <span asp-validation-for="Prise" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isDollar" class="control-label">Məzənnə</label>
+                    <select asp-for="isDollar" class="form-control">
+                        <option selected disabled value="true">Seçin</option>
+                        <option value="false">Manat</option>
+                        <option value="true">Dollar</option>
+                    </select>
+                    <span asp-validation-for="isDollar" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Info" class="control-label">Məlumat</label>
+                    <input asp-for="Info" class="form-control" />
+                    <span asp-validation-for="Info" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MobileNo" class="control-label">Əlaqə nömrəsi</label>
+                    <input id="formGroupExampleInput" asp-for="MobileNo" class="form-control" />
+                    <span asp-validation-for="MobileNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MobilNo2" class="control-label">Əlavə əlaqə nömrəsi</label>
+                    <input id="formGroupExampleInput" asp-for="MobilNo2" class="form-control" />
+                    <span asp-validation-for="MobilNo2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Yarat" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="List">Geri</a>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $('#formGroupExampleInput').mask('(000)00 000-00-00');
+        $(function () {
+            $('#formGroupExampleInput').keyup(function () {
+                this.value = this.value.toUpperCase();
+            });
+        });
+    </script>
+}

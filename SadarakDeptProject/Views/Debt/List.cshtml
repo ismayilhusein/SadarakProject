@@ -1,0 +1,148 @@
+﻿@model List<Debt>
+@{
+    ViewData["Title"] = "List";
+}
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="h4">Borc siyahısı</h3>
+                </div>
+                <div class="card-body">
+                    <a asp-controller="Debt" asp-action="Create" class="btn btn-primary mb-3">Borc yarat</a>
+                    <div class="table-responsive">
+                        <table id="Person-table" class="table table-striped table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Borcu olan şəxsin adı</th>
+                                    <th>Miqdarı</th>
+                                    <th>Vaxtı</th>
+                                    <th>Əlaqə nömrəsi</th>
+                                    <th>Əlavə əlaqə nömrəsi</th>
+                                    <th>Məlumat</th>
+                                    <th>Əməliyyatlar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    @if (item.isDollar != true)
+                                    {
+                                        <td>@item.Prise <img width="15" src="~/img/manat.png" alt="Alternate Text" /></td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.Prise <img width="15" src="~/img/dollar-symbol.png" alt="Alternate Text" /></td>
+                                    }
+                                    <td>@item.Date.ToString("dd MMM yyyy")</td>
+                                    <td>@item.MobileNo</td>
+                                    <td>@item.MobilNo2</td>
+                                    <td>@item.Info</td>
+                                    <td class="text-center">
+                                        <a asp-controller="Debt" asp-action="Edit" asp-route-id="@item.Id"><img width="20" title="Düzəliş et" src="~/img/editing.png" alt="Duzelish" /></a>
+                                        <a asp-controller="Debt" asp-action="Delete" asp-route-id="@item.Id" class="sweet-delete"><img width="20" title="Sil" src="~/img/delete.png" alt="Sil" /></a>
+
+
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $(".sweet-delete").click(function (event) {
+                event.preventDefault();
+                var sweet = $(this);
+                swal({
+                    title: "Eminsiniz?",
+                    text: "Melumatlariniz Silinecek",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.get($(this).attr('href'), function (response) {
+                            swal("Poof! Your imaginary file has been deleted!", {
+                                icon: "success",
+                            }).then(function () {
+                                window.location.reload();
+                            });
+                        });
+                    } else {
+                        swal("Xeta bash verdi!");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#Person-table').DataTable({
+                paging: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'Çap Et',
+                        orientation: 'landscape',
+                        title: 'Four Winds Interactive Tracking Information',
+
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        orientation: 'landscape',
+                        title: 'Four Winds Interactive Tracking Information',
+
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'Pdf',
+                        orientation: 'landscape',
+                        title: 'Four Winds Interactive Tracking Information',
+
+                    }
+                ],
+                searching: true,
+                "language": {
+                    "excel": "Test",
+                    "decimal": "",
+                    "emptyTable": "Məlumat tapılmadı",
+                    "info": "Hazırda _TOTAL_ sətirdən _START_ - _END_ görünür",
+                    "infoEmpty": "Showing 0 to 0 of 0 entries",
+                    "infoFiltered": "(filtered from _MAX_ total entries)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "_MENU_ sətir gətir",
+                    "loadingRecords": "Loading...",
+                    "processing": "Processing...",
+                    "search": "Axtarış:",
+                    "zeroRecords": "Tapılmadı",
+                    "paginate": {
+                        "first": "İlk",
+                        "last": "Son",
+                        "next": "Sonrakı",
+                        "previous": "Əvvəlki"
+                    },
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+                }
+            });
+        });
+    </script>
+}

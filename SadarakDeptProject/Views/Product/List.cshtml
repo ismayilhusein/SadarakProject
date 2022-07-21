@@ -1,0 +1,189 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "List";
+}
+<div class="container-fluid pt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="h4">Produkt siyahısı</h3>
+                </div>
+                <div class="card-body">
+                    <a asp-controller="Product" asp-action="Create" class="btn btn-primary mb-3">Produkt yarat</a>
+                    <div class="table-responsive">
+                        <table id="Person-table" class="table table-striped table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Kod</th>
+                                    <th>Produkt adı</th>
+                                    <th>Firması</th>
+                                    <th>Alış qiyməti</th>
+                                    <th>Karqo qiyməti</th>
+                                    <th>Üzərinə qoyulan məbləğ</th>
+                                    <th>Valyuta məzənnəsi</th>
+                                    <th>Satış qiyməti</th>
+                                    <th>Çəkisi</th>
+                                    <th>Kq,Kub</th>
+                                    <th>Sayı</th>
+                                    <th>Produktun gəlmə vaxtı</th>
+                                    <th>Status</th>
+                                    <th>Əməliyyatlar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@item.Code</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Company</td>
+                                    @if (item.isDollar != true)
+                                    {
+                                        <td>@item.BuyPrise <img width="15" src="~/img/manat.png" alt="Alternate Text" /></td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.BuyPrise <img width="15" src="~/img/dollar-symbol.png" alt="Alternate Text" /></td>
+                                    }
+                                    @if (item.isDollar != true)
+                                    {
+                                        <td>@item.WayPrice <img width="15" src="~/img/manat.png" alt="Alternate Text" /></td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.WayPrice <img width="15" src="~/img/dollar-symbol.png" alt="Alternate Text" /></td>
+                                    }
+                                    <td>@item.PlusPrise <img width="15" src="~/img/manat.png" alt="Alternate Text" /></td>
+                                    <td>@item.Rate</td>
+                                    @if (item.SellPrise >= 0)
+                                    {
+                                        <td>@((((double)item.WayPrice/(double)item.Count)+(double)item.BuyPrise) * item.Rate + item.PlusPrise)  <img width="15" src="~/img/manat.png" alt="Alternate Text" /></td>
+                                    }else
+                                    {
+                                        <td>Produkt hesablanmadı</td>
+                                    }
+                                    <td>@item.Weight</td>
+                                    @if (item.isKg == true)
+                                    {
+                                        <td>Kiloqram</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Kub</td>
+                                    }
+                                    <td>@item.Count</td>
+                                    <td>@item.ArrivalDate.ToString("dd MMM yyyy")</td>
+                                    @if (item.Status == true)
+                                    {
+                                        <td class="text-center"><img width="15" src="~/img/accept.png" alt="Alternate Text" /></td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center"><img width="15" src="~/img/cancel.png" alt="Alternate Text" /></td>
+                                    }
+                                    <td class="text-center">
+                                        <a asp-controller="Product" asp-action="Calculate" asp-route-id="@item.Id"><img width="20" title="Hesabla" src="~/img/calculator.png" alt="Hesabla" /></a>
+                                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@item.Id"><img width="20" title="Düzəliş et" src="~/img/editing.png" alt="Duzelish" /></a>
+                                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id" class="sweet-delete"><img width="20" title="Sil" src="~/img/delete.png" alt="Sil" /></a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $(".sweet-delete").click(function (event) {
+                event.preventDefault();
+                var sweet = $(this);
+                swal({
+                    title: "Eminsiniz?",
+                    text: "Melumatlariniz Silinecek",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        $.get($(this).attr('href'), function (response) {
+                            swal("Poof! Your imaginary file has been deleted!", {
+                                icon: "success",
+                            }).then(function () {
+                                window.location.reload();
+                            });
+                        });
+                    } else {
+                        swal("Xeta bash verdi!");
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#Person-table').DataTable({
+                paging: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'Çap Et',
+                        orientation: 'landscape',
+                        title: 'Four Winds Interactive Tracking Information',
+
+                    },
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        orientation: 'landscape',
+                        title: 'Four Winds Interactive Tracking Information',
+
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'Pdf',
+                        orientation: 'landscape',
+                        title: 'Four Winds Interactive Tracking Information',
+
+                    }
+                ],
+                searching: true,
+                "language": {
+                    "excel": "Test",
+                    "decimal": "",
+                    "emptyTable": "Məlumat tapılmadı",
+                    "info": "Hazırda _TOTAL_ sətirdən _START_ - _END_ görünür",
+                    "infoEmpty": "Showing 0 to 0 of 0 entries",
+                    "infoFiltered": "(filtered from _MAX_ total entries)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "_MENU_ sətir gətir",
+                    "loadingRecords": "Loading...",
+                    "processing": "Processing...",
+                    "search": "Axtarış:",
+                    "zeroRecords": "Tapılmadı",
+                    "paginate": {
+                        "first": "İlk",
+                        "last": "Son",
+                        "next": "Sonrakı",
+                        "previous": "Əvvəlki"
+                    },
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+                }
+            });
+        });
+    </script>
+}
+

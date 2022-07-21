@@ -1,0 +1,88 @@
+﻿@model SadarakDeptProject.Models.Product
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container-fluid">
+    <h1 class="pt-3">Düzəliş et</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Code" class="control-label">Kod</label>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Produkt adı</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Company" class="control-label">Firması</label>
+                    <input asp-for="Company" class="form-control" />
+                    <span asp-validation-for="Company" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BuyPrise" class="control-label">Alış qiyməti</label>
+                    <input asp-for="BuyPrise" class="form-control" />
+                    <span asp-validation-for="BuyPrise" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="WayPrice" class="control-label">Karqo qiyməti</label>
+                    <input asp-for="WayPrice" class="form-control" />
+                    <span asp-validation-for="WayPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Weight" class="control-label">Çəkisi</label>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isKg" class="control-label">Kq,Kub</label>
+                    <select asp-for="isKg" class="form-control">
+                        <option selected disabled value="true">Seçin</option>
+                        <option value="false">Kiloqram</option>
+                        <option value="true">Kub</option>
+                    </select>
+                    <span asp-validation-for="isKg" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="isDollar" class="control-label">Məzənnə növü</label>
+                    <select asp-for="isDollar" class="form-control">
+                        <option selected disabled value="true">Seçin</option>
+                        <option value="false">Manat</option>
+                        <option value="true">Dollar</option>
+                    </select>
+                    <span asp-validation-for="isKg" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Count" class="control-label">Sayı</label>
+                    <input asp-for="Count" class="form-control" />
+                    <span asp-validation-for="Count" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label">Status</label>
+                    <select asp-for="Status" class="form-control">
+                        <option selected disabled value="true">Seçin</option>
+                        <option value="true">Mövcuddur</option>
+                        <option value="false">Mövcud deyil</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Düzəliş et" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="List">Geri</a>
+    </div>
+
+</div>
